@@ -1,0 +1,69 @@
+﻿@page
+@model OnlineShop.UI.Pages.Admin.OrdersModel
+@{
+}
+<div id="app">
+    <div v-if="selectedOrder === null">
+        <div class="tabs is-centered">
+            <ul>
+                <li v-bind:class="{'is-active': status === 0}"><a @@click="status = 0">Pending</a></li>
+                <li v-bind:class="{'is-active': status === 1}"><a @@click="status = 1">Packed</a></li>
+                <li v-bind:class="{'is-active': status === 2}"><a @@click="status = 2">Shipped</a></li>
+            </ul>
+        </div>
+        <div v-if="orders.length > 0">
+            <p v-for="order in orders">
+                <a @@click="selectOrder(order.id)">{{order.date}} - {{order.orderRef}} - {{order.email}}</a>
+            </p>
+        </div>
+    </div>
+    <div class="container is-multiline" v-else>
+
+        <table class="table">
+            <caption class="title">Order</caption>
+            <tr>
+                <th>Order Date</th>
+                <th>Order Id</th>
+                <th>Order Refererence</th>
+                <th>Stripe Reference</th>
+                <th>Shipping Details</th>
+                <th>Contact Details</th>
+            </tr>
+            <tr>
+                <td>{{selectedOrder.date}}</td>
+                <td>{{selectedOrder.id}}</td>
+                <td>{{selectedOrder.orderRef}}</td>
+                <td>{{selectedOrder.stripeReference}}</td>
+                <td>{{selectedOrder.firstName}} {{selectedOrder.lastName}} {{selectedOrder.address1}} {{selectedOrder.address2}} {{selectedOrder.postCode}} {{selectedOrder.city}}</td>
+                <td>{{selectedOrder.email}} - {{selectedOrder.phoneNumber}}</td>
+
+            </tr>
+        </table>
+
+        <table class="table">
+            <caption class="subtitle">Products</caption>
+            <tr>
+                <th>Quantity</th>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Size</th>
+            </tr>
+
+            <tr v-for="product in selectedOrder.products">
+                <td>{{product.qty}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.stockDescription}}</td>
+            </tr>
+        </table>
+
+        <button class="button is-success" @@click="updateOrder()">Process</button>
+
+        <button class="button is-warning" @@click="exitOrder()">Exit</button>
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/admin/orders.js"></script>
+}

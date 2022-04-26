@@ -1,0 +1,16 @@
+﻿@page
+@model OnlineShop.UI.Pages.Accounts.LoginModel
+@{
+}
+
+
+<div class="container">
+    <form method="post">
+        <label for="id">User</label>
+        <input class="input" id="user" asp-for="Input.UserName" />
+        <label for="pw">Password</label>
+        <input class="input" type="password" id="pw" asp-for="Input.Password" />
+        <input class="button is-success" type="submit" name="name" value="Sign In" />
+    </form>
+</div>
+

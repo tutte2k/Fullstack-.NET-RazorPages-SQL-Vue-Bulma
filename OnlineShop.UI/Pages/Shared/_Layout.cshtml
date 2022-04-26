@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OnlineShop</title>
+
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/bulma/css/bulma.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a asp-page="/Index" class="navbar-item">
+                    <img src="~/images/logo.png">
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="navbar-item" asp-page="/Admin/Index">@User.Identity.Name</a>
+                    }
+                </div>
+
+
+                <div class="navbar-end">
+                    <vc:cart view="Small"></vc:cart>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="navbar-item" asp-controller="Account" asp-action="Logout">Sign Out</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>&copy; AGoodShop 2022 - <a asp-page="/Admin/Index">Admin Login</a></p>
+        </div>
+    </footer>
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

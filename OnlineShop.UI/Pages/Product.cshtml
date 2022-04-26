@@ -1,0 +1,107 @@
+﻿@page "{name}"
+@model OnlineShop.UI.Pages.ProductModel
+@{
+
+}
+<div class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-6">
+                    <figure class="image">
+                        <img src="@OnlineShop.UI.Extension.GetPath(Model.Product.Name)" />
+                    </figure>
+                </div>
+                <div class="column is-6">
+                    <section class="content">
+                        <p class="title">@Model.Product.Name</p>
+                        <p class="subtitle">@Model.Product.Description</p>
+                        <p>
+                            Det finns många olika varianter av Lorem Ipsum, men majoriteten av dessa har ändrats på någotvis. Antingen med inslag av humor, eller med inlägg av ord som knappast ser trovärdiga ut. Skall man använda långa stycken av Lorem Ipsum bör man försäkra sig om att det inte gömmer sig något pinsamt mitt i texten. Lorem Ipsum-generatorer på internet tenderar att repetera Lorem Ipsum-texten styckvis efter behov, något som gör denna sidan till den första riktiga Lorem Ipsum-generatorn på internet. Den använder ett ordförråd på över 200 ord, kombinerat med ett antal meningsbyggnadsstrukturer som tillsamman genererar Lorem Ipsum som ser ut som en normal mening. Lorem Ipsum genererad på denna sidan är därför alltid fri från repetitioner, humorinslag, märkliga ordformationer osv.
+                        </p>
+                        <footer>
+                            <form method="post">
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Size</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <div class="select is-fullwidth">
+                                                    <select asp-for="CartViewModel.StockId" onchange="toggleStock(event)">
+                                                        @foreach (var s in Model.Product.Stock)
+                                                        {
+                                                            bool disabled = s.Qty <= 0;
+
+                                                            <option value="@s.Id" disabled="@disabled">@s.Description</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Qty</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <input class="input" asp-for="CartViewModel.Qty" value="1" />
+                                            </div>
+                                            @foreach (var stock in Model.Product.Stock)
+                                            {
+                                                if (stock.Qty <= 10)
+                                                {
+                                                    <p class="help is-danger is-hidden" id="low-stock-@stock.Id">
+                                                        @(stock.Qty == 0 ? "Out of Stock":$"Only {stock.Qty} [{stock.Description}] Left")
+                                                    </p>
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+
+
+                                                <button class="button is-success" type="submit">Add to cart</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var toggleStock = function (e) {
+        console.log(e);
+        var stockToHide = document.querySelectorAll('.low-stock');
+
+        stockToHide.forEach(function (e) {
+            e.classList.add('is-hidden');
+        })
+        showLowStock(e.target.value)
+    }
+    var showLowStock = function (id) {
+        var stockToShow = document.getElementById('low-stock-' + id);
+        if (stockToShow !== null && stockToShow !== undefined)
+            stockToShow.classList.remove('is-hidden');
+    }
+
+    showLowStock(document.getElementById('CartViewModel_StockId').value);
+</script>

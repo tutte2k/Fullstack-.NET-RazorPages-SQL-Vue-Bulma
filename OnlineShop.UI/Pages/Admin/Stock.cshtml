@@ -7,7 +7,7 @@
         <div class="column is-3">
             <table class="table">
                 <tr v-for="product in products" @@click="selectProduct(product)">
-                    <td>{{product.description}}</td>
+                    <td><button class="button is-light">{{product.description}}</button></td>
                 </tr>
             </table>
         </div>
